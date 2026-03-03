@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 transition-colors duration-200 antialiased;
+    font-family: "Poppins", sans-serif;
+  }
+
+  html.dark body {
+    @apply bg-[#0a0a0a] text-slate-100;
+  }
+}
+
+@keyframes homeFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes homeFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes homeGridDrift {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+.home-enter {
+  opacity: 0;
+  animation: homeFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.home-enter-soft {
+  opacity: 0;
+  animation: homeFadeIn 420ms ease-out forwards;
+}
+
+.home-chip-enter {
+  opacity: 0;
+  animation: homeFadeUp 420ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.home-card-enter {
+  opacity: 0;
+  animation: homeFadeUp 540ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.home-grid-drift {
+  animation: homeGridDrift 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .home-enter,
+  .home-enter-soft,
+  .home-chip-enter,
+  .home-card-enter,
+  .home-grid-drift {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
