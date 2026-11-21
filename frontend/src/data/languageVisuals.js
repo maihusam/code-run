@@ -92,32 +92,7 @@ const pickFallbackIcon = (baseLanguage) => {
   return VscCode;
 };
 
-const buildPalette = (languageId) => {
-  const id = Number(languageId) || 1;
-  const hue = (id * 37 + 23) % 360;
-
-  return {
-    lightBg: `hsl(${hue} 95% 95%)`,
-    lightFg: `hsl(${hue} 64% 34%)`,
-    lightBorder: `hsl(${hue} 62% 82%)`,
-    darkBg: `hsl(${hue} 40% 18%)`,
-    darkFg: `hsl(${hue} 85% 72%)`,
-    darkBorder: `hsl(${hue} 50% 35%)`,
-  };
-};
-
-export const getLanguageVisual = (languageOption, isDark) => {
+export const getLanguageIcon = (languageOption) => {
   const baseLanguage = normalize(languageOption?.label);
-  const Icon =
-    ICON_BY_BASE_LANGUAGE[baseLanguage] || pickFallbackIcon(baseLanguage);
-  const palette = buildPalette(languageOption?.id);
-
-  return {
-    Icon,
-    badgeStyle: {
-      backgroundColor: isDark ? palette.darkBg : palette.lightBg,
-      color: isDark ? palette.darkFg : palette.lightFg,
-      borderColor: isDark ? palette.darkBorder : palette.lightBorder,
-    },
-  };
+  return ICON_BY_BASE_LANGUAGE[baseLanguage] || pickFallbackIcon(baseLanguage);
 };

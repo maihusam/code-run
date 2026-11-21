@@ -1,86 +1,217 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Terminal-native palette: blue-black, mint accent. Syntax hues reused as decoration. */
+:root {
+  --bg: #f6f8fa;
+  --surface: #ffffff;
+  --raised: #ffffff;
+  --ink: #1f2328;
+  --ink-2: #57606a;
+  --ink-3: #8c959f;
+  --line: #e1e6eb;
+  --line-strong: #c9d1d9;
+  --accent: #0a7f55;
+  --accent-hover: #086945;
+  --accent-ink: #ffffff;
+  --ok: #1a7f37;
+  --bad: #cf222e;
+  --warn: #9a6700;
+  --syn-kw: #cf222e;
+  --syn-str: #0a3069;
+  --syn-num: #0550ae;
+  --syn-fn: #8250df;
+  --syn-com: #8c959f;
+  color-scheme: light;
+}
+
+:root.dark {
+  --bg: #0a0c10;
+  --surface: #0f1218;
+  --raised: #151a22;
+  --ink: #e4e8f0;
+  --ink-2: #9aa4b5;
+  --ink-3: #5f6b7e;
+  --line: #1c222c;
+  --line-strong: #2b3441;
+  --accent: #3ddc97;
+  --accent-hover: #5ee8ac;
+  --accent-ink: #04140c;
+  --ok: #3ddc97;
+  --bad: #ff7b72;
+  --warn: #e3b341;
+  --syn-kw: #ff7b72;
+  --syn-str: #a5d6ff;
+  --syn-num: #79c0ff;
+  --syn-fn: #d2a8ff;
+  --syn-com: #5f6b7e;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+  --color-warn: var(--warn);
+  --color-syn-kw: var(--syn-kw);
+  --color-syn-str: var(--syn-str);
+  --color-syn-num: var(--syn-num);
+  --color-syn-fn: var(--syn-fn);
+  --color-syn-com: var(--syn-com);
+}
+
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-slate-50 text-slate-900 transition-colors duration-200 antialiased;
-    font-family: "Poppins", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
-  html.dark body {
-    @apply bg-[#0a0a0a] text-slate-100;
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
   }
 }
 
-@keyframes homeFadeUp {
+@layer components {
+  .kbd {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    line-height: 1;
+    padding: 3px 5px;
+    border-radius: 4px;
+    border: 1px solid var(--line-strong);
+    background: var(--raised);
+    color: var(--ink-2);
+    box-shadow: 0 1px 0 var(--line-strong);
+  }
+
+  /* Square-ish icon button used in toolbars. */
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    color: var(--ink-2);
+    transition:
+      background-color 120ms,
+      color 120ms;
+  }
+
+  .icon-btn:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+    color: var(--ink);
+  }
+
+  .icon-btn:disabled {
+    opacity: 0.35;
+  }
+}
+
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.985);
+    transform: translateY(10px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-@keyframes homeFadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes homeGridDrift {
-
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
+@keyframes blink {
   50% {
-    transform: translate3d(0, -8px, 0);
+    opacity: 0;
   }
 }
 
-.home-enter {
-  opacity: 0;
-  animation: homeFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--accent);
+  animation: blink 1.05s steps(1) infinite;
 }
 
-.home-enter-soft {
-  opacity: 0;
-  animation: homeFadeIn 420ms ease-out forwards;
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
-.home-chip-enter {
+.rise {
   opacity: 0;
-  animation: homeFadeUp 420ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: rise 560ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
 
-.home-card-enter {
-  opacity: 0;
-  animation: homeFadeUp 540ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-.home-grid-drift {
-  animation: homeGridDrift 12s ease-in-out infinite;
+.toast-in {
+  animation: toast-in 180ms ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+    opacity: 1;
+  }
 
-  .home-enter,
-  .home-enter-soft,
-  .home-chip-enter,
-  .home-card-enter,
-  .home-grid-drift {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
+  .toast-in,
+  .caret {
+    animation: none;
   }
 }
