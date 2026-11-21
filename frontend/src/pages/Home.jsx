@@ -284,7 +284,7 @@ export default function Home() {
       </main>
 
       <footer className="py-5 text-center text-sm text-neutral-500 border-t border-neutral-200 dark:border-neutral-800/80">
-        <p>Sanyam K. Patel</p>
+        <p>Sanyam Kumar Patel</p>
       </footer>
     </div>
   );
